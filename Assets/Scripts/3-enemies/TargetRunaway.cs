@@ -65,10 +65,8 @@ public class TargetRunaway : MonoBehaviour
 
     private List<Vector3Int> FindPathAwayFromPlayer(Vector3Int startNode)
     {
-        // Store all possible paths and their distances
         List<PathInfo> possiblePaths = new List<PathInfo>();
 
-        // Find multiple end points that are far from the player
         HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
         Queue<Vector3Int> queue = new Queue<Vector3Int>();
         Dictionary<Vector3Int, Vector3Int> cameFrom = new Dictionary<Vector3Int, Vector3Int>();
@@ -81,13 +79,11 @@ public class TargetRunaway : MonoBehaviour
         {
             Vector3Int current = queue.Dequeue();
 
-            // For each point, if it's far from the player, construct a path to it
             Vector3 currentWorld = tilemap.GetCellCenterWorld(current);
             float distanceFromPlayer = Vector3.Distance(currentWorld, targetInWorld);
 
             if (distanceFromPlayer > safeDistance)
             {
-                // Reconstruct path to this point
                 List<Vector3Int> path = new List<Vector3Int>();
                 Vector3Int pathNode = current;
 
@@ -99,9 +95,8 @@ public class TargetRunaway : MonoBehaviour
                 path.Add(startNode);
                 path.Reverse();
 
-                // Check if this path avoids the player
                 bool pathIsValid = true;
-                for (int i = 1; i < path.Count; i++) // Start from 1 to skip the starting position
+                for (int i = 1; i < path.Count; i++) 
                 {
                     if (IsPositionBlockedByPlayer(path[i]))
                     {
@@ -132,7 +127,6 @@ public class TargetRunaway : MonoBehaviour
             }
         }
 
-        // Sort paths by distance from player (descending) and path length (ascending)
         possiblePaths.Sort((a, b) =>
         {
             int distanceCompare = b.distanceFromPlayer.CompareTo(a.distanceFromPlayer);
@@ -140,7 +134,6 @@ public class TargetRunaway : MonoBehaviour
             return a.length.CompareTo(b.length);
         });
 
-        // Return the best path, or empty list if no valid paths found
         return possiblePaths.Count > 0 ? possiblePaths[0].path : new List<Vector3Int>();
     }
 

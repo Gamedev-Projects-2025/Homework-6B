@@ -63,7 +63,7 @@ public class BFS {
         visited.Add(startNode);
         distances[startNode] = 0;
 
-        NodeType furthestNode = startNode; // Initialize the furthest node
+        NodeType furthestNode = startNode;
         int maxDistance = 0;
 
         int iterations = 0;
@@ -82,7 +82,6 @@ public class BFS {
                     // Calculate the distance from the start node
                     distances[neighbor] = distances[currentNode] + 1;
 
-                    // Update furthest node if the distance is greater
                     if (distances[neighbor] > maxDistance)
                     {
                         maxDistance = distances[neighbor];
